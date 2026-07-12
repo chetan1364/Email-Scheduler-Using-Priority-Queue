@@ -1,0 +1,42 @@
+# Server configuration
+server.port=8080
+
+# Spring datasource configuration (MySQL)
+# Create a database named 'email_scheduler' and fill in your credentials below
+spring.datasource.url=jdbc:mysql://localhost:3306/email_scheduler?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+spring.datasource.username=root
+spring.datasource.password=YOUR_MYSQL_PASSWORD
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# Fallback: H2 in-memory DB (uncomment to use without MySQL)
+# spring.datasource.url=jdbc:h2:mem:email_scheduler;DB_CLOSE_DELAY=-1
+# spring.datasource.username=sa
+# spring.datasource.password=
+# spring.datasource.driver-class-name=org.h2.Driver
+# spring.h2.console.enabled=true
+
+# JPA/Hibernate settings
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+# Dialect auto-detected by Hibernate 6 — no need to set it explicitly
+
+# Mail sender configuration
+# For Gmail: enable 2-Step Verification, then generate an App Password at:
+# https://myaccount.google.com/apppasswords
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=YOUR_GMAIL_ADDRESS@gmail.com
+spring.mail.password=YOUR_16_CHAR_APP_PASSWORD
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+# Spring security thymeleaf dialect
+spring.thymeleaf.expose-request-variables=true
+
+# File upload settings (for email attachments)
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+
+# Custom scheduler settings
+email.scheduler.cron-interval-seconds=10
+email.scheduler.max-retries=3

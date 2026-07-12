@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content}, 'dashboard')}">
+<body>
+    <div th:fragment="content" class="animate-fade-in">
+        
+        <!-- Welcome Alert banner -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold text-light">Dashboard</h2>
+                <p class="text-secondary mb-0">Overview of your email queue, scheduling status, and dispatch pipeline.</p>
+            </div>
+            <div>
+                <a th:href="@{/emails/compose}" class="btn btn-premium" id="dashboard-compose-btn">
+                    <i class="fa-solid fa-plus me-2"></i> Schedule Email
+                </a>
+            </div>
+        </div>
+
+        <!-- Feedback Alert Messages -->
+        <div th:if="${param.success}" class="alert alert-success border-0 bg-success bg-opacity-20 text-success rounded-3 py-3 mb-4 animate-fade-in" role="alert">
+            <i class="fa-solid fa-circle-check me-2"></i> <span th:text="${param.success}">Action completed successfully.</span>
+        </div>
+
+        <!-- Metrics cards row -->
+        <div class="row g-4 mb-5">
+            <!-- Total Scheduled -->
+            <div class="col-md-3">
+                <div class="glass-card p-4 d-flex align-items-center">
+                    <div class="bg-gradient-accent rounded-3 p-3 me-3 text-white">
+                        <i class="fa-solid fa-envelope-open-text fs-3"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-secondary small mb-1">Total Scheduled</h6>
+                        <h3 class="fw-bold mb-0 text-light" th:text="${totalCount}">0</h3>
+                    </div>
+                </div>
+            </div>
+            <!-- Sent Successfully -->
+            <div class="col-md-3">
+                <div class="glass-card p-4 d-flex align-items-center">
+                    <div class="bg-success bg-opacity-20 border border-success rounded-3 p-3 me-3 text-success">
+                        <i class="fa-solid fa-paper-plane fs-3"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-secondary small mb-1">Sent Emails</h6>
+                        <h3 class="fw-bold mb-0 text-light" th:text="${sentCount}">0</h3>
+                    </div>
+                </div>
+            </div>
+            <!-- Active Queue (Pending/Queued) -->
+            <div class="col-md-3">
+                <div class="glass-card p-4 d-flex align-items-center">
+                    <div class="bg-warning bg-opacity-20 border border-warning rounded-3 p-3 me-3 text-warning">
+                        <i class="fa-solid fa-hourglass-half fs-3"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-secondary small mb-1">Pending/Queued</h6>
+                        <h3 class="fw-bold mb-0 text-light" th:text="${pendingCount}">0</h3>
+                    </div>
+                </div>
+            </div>
+            <!-- Dispatch Failed -->
+            <div class="col-md-3">
+                <div class="glass-card p-4 d-flex align-items-center">
+                    <div class="bg-danger bg-opacity-20 border border-danger rounded-3 p-3 me-3 text-danger">
+                        <i class="fa-solid fa-triangle-exclamation fs-3"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-secondary small mb-1">Failed Deliveries</h6>
+                        <h3 class="fw-bold mb-0 text-light" th:text="${failedCount}">0</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Emails List and Filters -->
+            <div class="col-lg-9">
+                <div class="glass-card p-4 mb-4">
+                    <h5 class="fw-bold text-light mb-4">Filter Pipeline</h5>
+                    
+                    <!-- Filters Form -->
+                    <form th:action="@{/dashboard}" method="get" class="row g-3">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" name="search" th:value="${searchQuery}" placeholder="Search subject, body, to..." id="filter-search">
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-select" name="status" id="filter-status">
+                                <option value="">All Statuses</option>
+                                <option th:each="st : ${T(com.emailscheduler.model.EmailStatus).values()}" 
+                                        th:value="${st}" th:text="${st}"
+                                        th:selected="${st == selectedStatus}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-select" name="priority" id="filter-priority">
+                                <option value="">All Priorities</option>
+                                <option th:each="pr : ${T(com.emailscheduler.model.EmailPriority).values()}" 
+                                        th:value="${pr}" th:text="${pr}"
+                                        th:selected="${pr == selectedPriority}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="date" class="form-control" name="startDate" th:value="${selectedStartDate}" title="Start Date" id="filter-start-date">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="date" class="form-control" name="endDate" th:value="${selectedEndDate}" title="End Date" id="filter-end-date">
+                        </div>
+                        <div class="col-md-1 d-flex gap-2">
+                            <button type="submit" class="btn btn-premium w-100" title="Apply Filters" id="filter-submit-btn">
+                                <i class="fa-solid fa-filter"></i>
+                            </button>
+                            <a th:href="@{/dashboard}" class="btn btn-secondary-premium" title="Reset filters" id="filter-reset-btn">
+                                <i class="fa-solid fa-arrow-rotate-left"></i>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Emails Queue Listing Table -->
+                <div class="glass-card p-4">
+                    <h5 class="fw-bold text-light mb-4">Emails Pipeline List</h5>
+                    
+                    <div class="table-responsive" th:if="${not #lists.isEmpty(emails)}">
+                        <table class="table table-premium w-100">
+                            <thead>
+                                <tr>
+                                    <th>Recipients</th>
+                                    <th>Subject</th>
+                                    <th>Priority</th>
+                                    <th>Scheduled For</th>
+                                    <th>Status</th>
+                                    <th>Retries</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="email : ${emails}">
+                                    <td class="text-truncate" style="max-width: 180px;" th:text="${email.recipients}">recipient@domain.com</td>
+                                    <td class="text-truncate" style="max-width: 200px;" th:text="${email.subject}">Subject text</td>
+                                    <td>
+                                        <span class="badge" 
+                                              th:classappend="${email.priority.name() == 'HIGH' ? 'badge-high' : (email.priority.name() == 'MEDIUM' ? 'badge-medium' : 'badge-low')}"
+                                              th:text="${email.priority}">HIGH</span>
+                                    </td>
+                                    <td th:text="${#temporals.format(email.scheduledTime, 'yyyy-MM-dd HH:mm:ss')}">2026-07-07 18:00</td>
+                                    <td>
+                                        <span class="badge" 
+                                              th:classappend="${'badge-' + #strings.toLowerCase(email.status)}"
+                                              th:text="${email.status}">PENDING</span>
+                                    </td>
+                                    <td class="text-center" th:text="${email.retryCount + ' / ' + email.maxRetries}">0 / 3</td>
+                                    <td class="text-center">
+                                        <a th:href="@{/emails/{id}(id=${email.id})}" class="btn btn-sm btn-secondary-premium py-1 px-2" th:id="'view-btn-' + ${email.id}">
+                                            <i class="fa-solid fa-magnifying-glass"></i> View
+                                        </a>
+                                        <a th:href="@{/emails/{id}/edit(id=${email.id})}" th:if="${email.status.name() == 'DRAFT' || email.status.name() == 'PENDING' || email.status.name() == 'RETRIED'}" class="btn btn-sm btn-outline-info py-1 px-2 ms-1" th:id="'edit-btn-' + ${email.id}">
+                                            <i class="fa-solid fa-pen"></i> Edit
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Empty state -->
+                    <div th:if="${#lists.isEmpty(emails)}" class="text-center py-5">
+                        <i class="fa-regular fa-envelope-open text-secondary fs-1 mb-3"></i>
+                        <h6 class="text-secondary">No scheduled emails match the selected filters.</h6>
+                        <a th:href="@{/emails/compose}" class="btn btn-premium btn-sm mt-3">Schedule your first email</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications Sidebar Panel -->
+            <div class="col-lg-3">
+                <div class="glass-card p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold text-light mb-0"><i class="fa-solid fa-bell me-2 text-gradient"></i>Alert Log</h5>
+                        <a th:href="@{/dashboard/notifications/read}" class="btn btn-sm btn-secondary-premium py-1 px-2 fs-7" id="mark-all-read-btn">
+                            Clear
+                        </a>
+                    </div>
+                    
+                    <div class="d-flex flex-column gap-3 overflow-y-auto" style="max-height: 500px;">
+                        <div th:each="n : ${notifications}" class="p-3 rounded-3" 
+                             th:style="${n.isRead() ? 'background: rgba(255, 255, 255, 0.02);' : 'background: rgba(99, 102, 241, 0.08); border-left: 3px solid var(--accent);'}">
+                            <p class="mb-1 text-light small" th:text="${n.message}">Notification message</p>
+                            <span class="text-secondary fs-8" th:text="${#temporals.format(n.createdAt, 'HH:mm:ss')}">Time</span>
+                        </div>
+
+                        <!-- Empty notifications -->
+                        <div th:if="${#lists.isEmpty(notifications)}" class="text-center py-4 text-secondary small">
+                            <i class="fa-solid fa-bell-slash fs-3 mb-2 opacity-50"></i>
+                            <div>No dispatch alerts.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

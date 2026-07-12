@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::content}, 'compose')}">
+<body>
+    <div th:fragment="content" class="animate-fade-in" style="max-width: 900px; margin: 0 auto;">
+        
+        <div class="mb-4">
+            <h2 class="fw-bold text-light" th:text="${emailId != null ? 'Edit Scheduled Email' : 'Compose Email'}">Compose Email</h2>
+            <p class="text-secondary" th:text="${emailId != null ? 'Modify your email details or reschedule the delivery time.' : 'Schedule an email with custom priority settings and execution times.'}">Create a scheduled message pipeline.</p>
+        </div>
+
+        <div class="glass-card p-5">
+            <div th:if="${error}" class="alert alert-danger border-0 bg-danger bg-opacity-20 text-danger rounded-3 py-3 mb-4" role="alert">
+                <i class="fa-solid fa-circle-exclamation me-2"></i> <span th:text="${error}">Error details</span>
+            </div>
+
+            <!-- Compose/Edit Form (enc-type multipart/form-data for attachments) -->
+            <form th:action="${emailId != null ? '/emails/' + emailId + '/edit' : '/emails/compose'}" 
+                  th:object="${emailRequest}" method="post" enctype="multipart/form-data">
+                
+                <div class="row g-3 mb-3">
+                    <!-- Recipients -->
+                    <div class="col-12">
+                        <label for="recipients" class="form-label">To (Recipients)</label>
+                        <input type="text" class="form-control" id="recipients" th:field="*{recipients}" required placeholder="user1@example.com, user2@example.com">
+                        <div class="form-text text-secondary">Separate multiple emails with commas.</div>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <!-- CC -->
+                    <div class="col-md-6">
+                        <label for="cc" class="form-label">CC</label>
+                        <input type="text" class="form-control" id="cc" th:field="*{cc}" placeholder="cc@example.com">
+                    </div>
+                    <!-- BCC -->
+                    <div class="col-md-6">
+                        <label for="bcc" class="form-label">BCC</label>
+                        <input type="text" class="form-control" id="bcc" th:field="*{bcc}" placeholder="bcc@example.com">
+                    </div>
+                </div>
+
+                <!-- Subject -->
+                <div class="mb-3">
+                    <label for="subject" class="form-label">Subject</label>
+                    <input type="text" class="form-control" id="subject" th:field="*{subject}" required placeholder="Enter message subject">
+                </div>
+
+                <!-- Body (Rich text simulated or standard styled text area) -->
+                <div class="mb-3">
+                    <label for="body" class="form-label">Email Body (Supports HTML)</label>
+                    <textarea class="form-control" id="body" th:field="*{body}" rows="8" required placeholder="Write your message here..."></textarea>
+                    <div class="form-text text-secondary">You can input basic HTML tags for rich rendering.</div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <!-- Priority -->
+                    <div class="col-md-6">
+                        <label for="priority" class="form-label">Priority Level</label>
+                        <select class="form-select" id="priority" th:field="*{priority}">
+                            <option th:each="p : ${priorities}" th:value="${p}" th:text="${p}"></option>
+                        </select>
+                        <div class="form-text text-secondary">Queue dispatcher processes HIGH priority items first.</div>
+                    </div>
+                    <!-- Scheduled Date & Time -->
+                    <div class="col-md-6">
+                        <label for="scheduledTime" class="form-label">Scheduled Date & Time</label>
+                        <input type="datetime-local" class="form-control" id="scheduledTime" th:field="*{scheduledTime}" required>
+                        <div class="form-text text-secondary">Select the local date and time of dispatch.</div>
+                    </div>
+                </div>
+
+                <!-- File Attachments -->
+                <div class="mb-5">
+                    <label for="attachments" class="form-label">File Attachments</label>
+                    <input type="file" class="form-control" id="attachments" name="attachments" multiple>
+                    <div class="form-text text-secondary" th:if="${emailId != null}">Note: Adding new files will append them to the existing attachment list.</div>
+                </div>
+
+                <!-- Actions -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <a th:href="@{/dashboard}" class="btn btn-secondary-premium">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Cancel
+                    </a>
+                    
+                    <div class="d-flex gap-2">
+                        <!-- Submit as Draft button -->
+                        <button type="submit" name="action" value="draft" class="btn btn-secondary-premium" id="save-draft-btn">
+                            <i class="fa-solid fa-floppy-disk me-1"></i> Save as Draft
+                        </button>
+                        
+                        <!-- Submit as Pending scheduler button -->
+                        <button type="submit" name="action" value="schedule" class="btn btn-premium" id="schedule-email-btn">
+                            <i class="fa-solid fa-calendar-check me-1"></i> Schedule Email
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>
