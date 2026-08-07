@@ -6,7 +6,7 @@
         <!-- Welcome Alert banner -->
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h2 class="fw-bold text-light">Dashboard</h2>
+                <h2 class="fw-bold text-dark">Dashboard</h2>
                 <p class="text-secondary mb-0">Overview of your email queue, scheduling status, and dispatch pipeline.</p>
             </div>
             <div>
@@ -26,48 +26,56 @@
             <!-- Total Scheduled -->
             <div class="col-md-3">
                 <div class="glass-card p-4 d-flex align-items-center">
-                    <div class="bg-gradient-accent rounded-3 p-3 me-3 text-white">
-                        <i class="fa-solid fa-envelope-open-text fs-3"></i>
+                    <div class="stat-icon-box stat-icon-blue me-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="#ffffff">
+                            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
+                        </svg>
                     </div>
                     <div>
                         <h6 class="text-secondary small mb-1">Total Scheduled</h6>
-                        <h3 class="fw-bold mb-0 text-light" th:text="${totalCount}">0</h3>
+                        <h3 class="fw-bold mb-0 text-dark" th:text="${totalCount}">0</h3>
                     </div>
                 </div>
             </div>
             <!-- Sent Successfully -->
             <div class="col-md-3">
                 <div class="glass-card p-4 d-flex align-items-center">
-                    <div class="bg-success bg-opacity-20 border border-success rounded-3 p-3 me-3 text-success">
-                        <i class="fa-solid fa-paper-plane fs-3"></i>
+                    <div class="stat-icon-box stat-icon-green me-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="#ffffff">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                        </svg>
                     </div>
                     <div>
                         <h6 class="text-secondary small mb-1">Sent Emails</h6>
-                        <h3 class="fw-bold mb-0 text-light" th:text="${sentCount}">0</h3>
+                        <h3 class="fw-bold mb-0 text-dark" th:text="${sentCount}">0</h3>
                     </div>
                 </div>
             </div>
             <!-- Active Queue (Pending/Queued) -->
             <div class="col-md-3">
                 <div class="glass-card p-4 d-flex align-items-center">
-                    <div class="bg-warning bg-opacity-20 border border-warning rounded-3 p-3 me-3 text-warning">
-                        <i class="fa-solid fa-hourglass-half fs-3"></i>
+                    <div class="stat-icon-box stat-icon-amber me-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="#ffffff">
+                            <path d="M6 2v6l4 4-4 4v6h12v-6l-4-4 4-4V2H6zm10 14.5V20H8v-3.5l4-4 4 4zm0-11V8H8V5.5l4 4 4-4z"></path>
+                        </svg>
                     </div>
                     <div>
                         <h6 class="text-secondary small mb-1">Pending/Queued</h6>
-                        <h3 class="fw-bold mb-0 text-light" th:text="${pendingCount}">0</h3>
+                        <h3 class="fw-bold mb-0 text-dark" th:text="${pendingCount}">0</h3>
                     </div>
                 </div>
             </div>
             <!-- Dispatch Failed -->
             <div class="col-md-3">
                 <div class="glass-card p-4 d-flex align-items-center">
-                    <div class="bg-danger bg-opacity-20 border border-danger rounded-3 p-3 me-3 text-danger">
-                        <i class="fa-solid fa-triangle-exclamation fs-3"></i>
+                    <div class="stat-icon-box stat-icon-red me-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="#ffffff">
+                            <path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"></path>
+                        </svg>
                     </div>
                     <div>
                         <h6 class="text-secondary small mb-1">Failed Deliveries</h6>
-                        <h3 class="fw-bold mb-0 text-light" th:text="${failedCount}">0</h3>
+                        <h3 class="fw-bold mb-0 text-dark" th:text="${failedCount}">0</h3>
                     </div>
                 </div>
             </div>
@@ -77,7 +85,7 @@
             <!-- Emails List and Filters -->
             <div class="col-lg-9">
                 <div class="glass-card p-4 mb-4">
-                    <h5 class="fw-bold text-light mb-4">Filter Pipeline</h5>
+                    <h5 class="fw-bold text-dark mb-4">Filter Pipeline</h5>
                     
                     <!-- Filters Form -->
                     <form th:action="@{/dashboard}" method="get" class="row g-3">
@@ -119,7 +127,7 @@
 
                 <!-- Emails Queue Listing Table -->
                 <div class="glass-card p-4">
-                    <h5 class="fw-bold text-light mb-4">Emails Pipeline List</h5>
+                    <h5 class="fw-bold text-dark mb-4">Emails Pipeline List</h5>
                     
                     <div class="table-responsive" th:if="${not #lists.isEmpty(emails)}">
                         <table class="table table-premium w-100">
@@ -154,7 +162,7 @@
                                         <a th:href="@{/emails/{id}(id=${email.id})}" class="btn btn-sm btn-secondary-premium py-1 px-2" th:id="'view-btn-' + ${email.id}">
                                             <i class="fa-solid fa-magnifying-glass"></i> View
                                         </a>
-                                        <a th:href="@{/emails/{id}/edit(id=${email.id})}" th:if="${email.status.name() == 'DRAFT' || email.status.name() == 'PENDING' || email.status.name() == 'RETRIED'}" class="btn btn-sm btn-outline-info py-1 px-2 ms-1" th:id="'edit-btn-' + ${email.id}">
+                                        <a th:href="@{/emails/{id}/edit(id=${email.id})}" th:if="${email.status.name() == 'DRAFT' || email.status.name() == 'PENDING' || email.status.name() == 'RETRIED'}" class="btn btn-sm btn-outline-primary py-1 px-2 ms-1" th:id="'edit-btn-' + ${email.id}">
                                             <i class="fa-solid fa-pen"></i> Edit
                                         </a>
                                     </td>
@@ -176,7 +184,7 @@
             <div class="col-lg-3">
                 <div class="glass-card p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h5 class="fw-bold text-light mb-0"><i class="fa-solid fa-bell me-2 text-gradient"></i>Alert Log</h5>
+                        <h5 class="fw-bold text-dark mb-0"><i class="fa-solid fa-bell me-2 text-gradient"></i>Alert Log</h5>
                         <a th:href="@{/dashboard/notifications/read}" class="btn btn-sm btn-secondary-premium py-1 px-2 fs-7" id="mark-all-read-btn">
                             Clear
                         </a>
@@ -184,13 +192,13 @@
                     
                     <div class="d-flex flex-column gap-3 overflow-y-auto" style="max-height: 500px;">
                         <div th:each="n : ${notifications}" class="p-3 rounded-3" 
-                             th:style="${n.isRead() ? 'background: rgba(255, 255, 255, 0.02);' : 'background: rgba(99, 102, 241, 0.08); border-left: 3px solid var(--accent);'}">
-                            <p class="mb-1 text-light small" th:text="${n.message}">Notification message</p>
-                            <span class="text-secondary fs-8" th:text="${#temporals.format(n.createdAt, 'HH:mm:ss')}">Time</span>
+                             th:style="${n.isRead() ? 'background: #f8fafc; border: 1px solid #e2e8f0;' : 'background: #eff6ff; border-left: 3px solid #2563eb; border-top: 1px solid #dbeafe; border-right: 1px solid #dbeafe; border-bottom: 1px solid #dbeafe;'}">
+                            <p class="mb-1 small" style="color: #0f172a !important; font-weight: 500;" th:text="${n.message}">Notification message</p>
+                            <span class="fs-8" style="color: #475569 !important;" th:text="${#temporals.format(n.createdAt, 'HH:mm:ss')}">Time</span>
                         </div>
 
                         <!-- Empty notifications -->
-                        <div th:if="${#lists.isEmpty(notifications)}" class="text-center py-4 text-secondary small">
+                        <div th:if="${#lists.isEmpty(notifications)}" class="text-center py-4 small" style="color: #64748b !important;">
                             <i class="fa-solid fa-bell-slash fs-3 mb-2 opacity-50"></i>
                             <div>No dispatch alerts.</div>
                         </div>

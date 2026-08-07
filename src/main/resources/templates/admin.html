@@ -5,7 +5,7 @@
         
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h2 class="fw-bold text-light">Admin Panel</h2>
+                <h2 class="fw-bold text-dark">Admin Panel</h2>
                 <p class="text-secondary mb-0">System metrics, user privileges management, and live scheduler queue diagnostics.</p>
             </div>
             <div>
@@ -25,7 +25,7 @@
                         <h6 class="text-secondary small mb-0">Sent Today</h6>
                         <span class="badge bg-success bg-opacity-20 text-success">SMTP</span>
                     </div>
-                    <h3 class="fw-bold text-light" th:text="${sentToday}">0</h3>
+                    <h3 class="fw-bold text-dark" th:text="${sentToday}">0</h3>
                     <p class="text-secondary fs-8 mb-0">Dispatched in past 24 hours</p>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                         <h6 class="text-secondary small mb-0">Failure Rate</h6>
                         <span class="badge bg-danger bg-opacity-20 text-danger">Delivery</span>
                     </div>
-                    <h3 class="fw-bold text-light" th:text="${#numbers.formatDecimal(failureRate, 1, 2) + '%'}">0.0%</h3>
+                    <h3 class="fw-bold text-dark" th:text="${#numbers.formatDecimal(failureRate, 1, 2) + '%'}">0.0%</h3>
                     <p class="text-secondary fs-8 mb-0">Failed / total sent ratio</p>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                         <h6 class="text-secondary small mb-0">Live Queue Size</h6>
                         <span class="badge bg-primary bg-opacity-20 text-primary">DSA Queue</span>
                     </div>
-                    <h3 class="fw-bold text-light" th:text="${queueSize}">0</h3>
+                    <h3 class="fw-bold text-dark" th:text="${queueSize}">0</h3>
                     <p class="text-secondary fs-8 mb-0">Emails currently in Priority Queue</p>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                         <h6 class="text-secondary small mb-0">Total Accounts</h6>
                         <span class="badge bg-secondary bg-opacity-20 text-secondary">Users</span>
                     </div>
-                    <h3 class="fw-bold text-light" th:text="${#lists.size(users)}">0</h3>
+                    <h3 class="fw-bold text-dark" th:text="${#lists.size(users)}">0</h3>
                     <p class="text-secondary fs-8 mb-0">Registered system members</p>
                 </div>
             </div>
@@ -65,9 +65,9 @@
             <!-- User Accounts Manager -->
             <div class="col-lg-6">
                 <div class="glass-card p-4 h-100">
-                    <h5 class="fw-bold text-light mb-4"><i class="fa-solid fa-users me-2 text-gradient"></i>Manage User Accounts</h5>
+                    <h5 class="fw-bold text-dark mb-4"><i class="fa-solid fa-users me-2 text-gradient"></i>Manage User Accounts</h5>
                     <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                        <table class="table table-dark table-hover border-dark align-middle small mb-0">
+                        <table class="table table-hover border-light-subtle align-middle small mb-0">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -79,11 +79,11 @@
                             </thead>
                             <tbody>
                                 <tr th:each="u : ${users}">
-                                    <td class="text-light" th:text="${u.name}">User Name</td>
+                                    <td class="text-dark fw-medium" th:text="${u.name}">User Name</td>
                                     <td class="text-secondary" th:text="${u.email}">user@domain.com</td>
                                     <td>
                                         <form th:action="@{/admin/users/{id}/role(id=${u.id})}" method="post" class="d-flex align-items-center gap-1">
-                                            <select class="form-select form-select-sm border-secondary bg-dark text-light py-0 px-2" name="role" onchange="this.form.submit()">
+                                            <select class="form-select form-select-sm border-secondary bg-light text-dark py-0 px-2" name="role" onchange="this.form.submit()">
                                                 <option th:value="USER" th:text="USER" th:selected="${u.role.name() == 'USER'}">USER</option>
                                                 <option th:value="ADMIN" th:text="ADMIN" th:selected="${u.role.name() == 'ADMIN'}">ADMIN</option>
                                             </select>
@@ -109,7 +109,7 @@
             <!-- Priority & Status Distributions visual panel -->
             <div class="col-lg-6">
                 <div class="glass-card p-4 h-100">
-                    <h5 class="fw-bold text-light mb-4"><i class="fa-solid fa-chart-pie me-2 text-gradient"></i>Analytics Distributions</h5>
+                    <h5 class="fw-bold text-dark mb-4"><i class="fa-solid fa-chart-pie me-2 text-gradient"></i>Analytics Distributions</h5>
                     
                     <div class="row align-items-center justify-content-center text-center">
                         <!-- Priority Distribution listing -->
@@ -117,7 +117,7 @@
                             <h6 class="text-secondary small mb-3">Priority Distribution</h6>
                             <div class="d-flex flex-column gap-2 text-start px-4">
                                 <div th:each="entry : ${priorityDistribution}">
-                                    <span class="text-light small" th:text="${entry.key}">HIGH</span>: 
+                                    <span class="text-dark small" th:text="${entry.key}">HIGH</span>: 
                                     <strong class="text-gradient" th:text="${entry.value}">0</strong>
                                 </div>
                             </div>
@@ -128,7 +128,7 @@
                             <h6 class="text-secondary small mb-3">Status Distribution</h6>
                             <div class="d-flex flex-column gap-2 text-start px-4" style="max-height: 200px; overflow-y: auto;">
                                 <div th:each="entry : ${statusDistribution}">
-                                    <span class="text-light small" th:text="${entry.key}">SENT</span>: 
+                                    <span class="text-dark small" th:text="${entry.key}">SENT</span>: 
                                     <strong class="text-secondary" th:text="${entry.value}">0</strong>
                                 </div>
                             </div>
@@ -142,9 +142,9 @@
             <!-- Live Scheduler Priority Queue Monitor -->
             <div class="col-md-8">
                 <div class="glass-card p-4">
-                    <h5 class="fw-bold text-light mb-4"><i class="fa-solid fa-server me-2 text-gradient"></i>Live Dispatch Scheduler Queue</h5>
+                    <h5 class="fw-bold text-dark mb-4"><i class="fa-solid fa-server me-2 text-gradient"></i>Live Dispatch Scheduler Queue</h5>
                     <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
-                        <table class="table table-dark table-hover border-dark align-middle small mb-0">
+                        <table class="table table-hover border-light-subtle align-middle small mb-0">
                             <thead>
                                 <tr>
                                     <th>Sender</th>
@@ -156,7 +156,7 @@
                             </thead>
                             <tbody>
                                 <tr th:each="qEmail : ${liveQueue}">
-                                    <td class="text-light" th:text="${qEmail.sender.email}">sender@domain.com</td>
+                                    <td class="text-dark fw-medium" th:text="${qEmail.sender.email}">sender@domain.com</td>
                                     <td class="text-secondary" th:text="${qEmail.recipients}">to@domain.com</td>
                                     <td class="text-secondary text-truncate" style="max-width: 150px;" th:text="${qEmail.subject}">Subject</td>
                                     <td>
@@ -177,15 +177,15 @@
             <!-- SMTP Config Visualiser -->
             <div class="col-md-4">
                 <div class="glass-card p-4 h-100">
-                    <h5 class="fw-bold text-light mb-4"><i class="fa-solid fa-gears me-2 text-gradient"></i>SMTP Configuration Status</h5>
+                    <h5 class="fw-bold text-dark mb-4"><i class="fa-solid fa-gears me-2 text-gradient"></i>SMTP Configuration Status</h5>
                     <div class="d-flex flex-column gap-3 small text-secondary">
                         <div class="d-flex justify-content-between">
                             <span>SMTP Host:</span>
-                            <strong class="text-light">smtp.gmail.com</strong>
+                            <strong class="text-dark">smtp.gmail.com</strong>
                         </div>
                         <div class="d-flex justify-content-between">
                             <span>SMTP Port:</span>
-                            <strong class="text-light">587 (TLS)</strong>
+                            <strong class="text-dark">587 (TLS)</strong>
                         </div>
                         <div class="d-flex justify-content-between">
                             <span>Authentication:</span>
@@ -193,7 +193,7 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <span>Connection Pool:</span>
-                            <strong class="text-light">Spring Mail Standard</strong>
+                            <strong class="text-dark">Spring Mail Standard</strong>
                         </div>
                         <hr class="text-secondary" />
                         <button type="button" class="btn btn-sm btn-secondary-premium w-100" onclick="alert('SMTP configuration test: Connection simulation successful!');">
@@ -206,7 +206,7 @@
 
         <!-- System wide email registry logs -->
         <div class="glass-card p-4">
-            <h5 class="fw-bold text-light mb-4"><i class="fa-solid fa-list-check me-2 text-gradient"></i>System-Wide Scheduled Registry</h5>
+            <h5 class="fw-bold text-dark mb-4"><i class="fa-solid fa-list-check me-2 text-gradient"></i>System-Wide Scheduled Registry</h5>
             
             <form th:action="@{/admin}" method="get" class="row g-3 mb-4">
                 <div class="col-md-4">
@@ -234,7 +234,7 @@
             </form>
 
             <div class="table-responsive">
-                <table class="table table-dark table-hover border-dark align-middle small mb-0">
+                <table class="table table-hover border-light-subtle align-middle small mb-0">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -250,7 +250,7 @@
                     <tbody>
                         <tr th:each="e : ${systemEmails}">
                             <td class="text-secondary" th:text="${e.id}">1</td>
-                            <td class="text-light" th:text="${e.sender.email}">user@domain.com</td>
+                            <td class="text-dark fw-medium" th:text="${e.sender.email}">user@domain.com</td>
                             <td class="text-secondary" th:text="${e.recipients}">to@domain.com</td>
                             <td class="text-secondary text-truncate" style="max-width: 150px;" th:text="${e.subject}">Subject</td>
                             <td>
@@ -263,7 +263,7 @@
                                       th:text="${e.status}">SENT</span>
                             </td>
                             <td>
-                                <a th:href="@{/emails/{id}(id=${e.id})}" class="btn btn-sm btn-outline-info py-0 px-2">Inspect</a>
+                                <a th:href="@{/emails/{id}(id=${e.id})}" class="btn btn-sm btn-outline-primary py-0 px-2">Inspect</a>
                             </td>
                         </tr>
                     </tbody>

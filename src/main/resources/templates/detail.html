@@ -8,14 +8,14 @@
                 <a th:href="@{/dashboard}" class="btn btn-sm btn-secondary-premium mb-2">
                     <i class="fa-solid fa-chevron-left me-1"></i> Back to Dashboard
                 </a>
-                <h3 class="fw-bold text-light">Email Details</h3>
+                <h3 class="fw-bold text-dark">Email Details</h3>
             </div>
             
             <div class="d-flex gap-2">
                 <!-- Edit button -->
                 <a th:href="@{/emails/{id}/edit(id=${email.id})}" 
                    th:if="${email.status.name() == 'DRAFT' || email.status.name() == 'PENDING' || email.status.name() == 'RETRIED'}" 
-                   class="btn btn-sm btn-outline-info px-3" id="detail-edit-btn">
+                   class="btn btn-sm btn-outline-primary px-3" id="detail-edit-btn">
                     <i class="fa-solid fa-pen-to-square me-1"></i> Edit Email
                 </a>
                 
@@ -50,8 +50,8 @@
             <!-- Email Details Info card -->
             <div class="col-md-8">
                 <div class="glass-card p-5 mb-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-dark pb-3">
-                        <h4 class="fw-bold text-light mb-0" th:text="${email.subject}">Email Subject Title</h4>
+                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-light-subtle pb-3">
+                        <h4 class="fw-bold text-dark mb-0" th:text="${email.subject}">Email Subject Title</h4>
                         <div>
                             <span class="badge badge-lg me-2" 
                                   th:classappend="${email.priority.name() == 'HIGH' ? 'badge-high' : (email.priority.name() == 'MEDIUM' ? 'badge-medium' : 'badge-low')}"
@@ -65,30 +65,30 @@
                     <!-- Meta specs -->
                     <div class="row g-3 mb-4 text-secondary small">
                         <div class="col-sm-6">
-                            <div><strong>To:</strong> <span class="text-light" th:text="${email.recipients}">recipient@domain.com</span></div>
-                            <div th:if="${email.cc != null && !email.cc.isEmpty()}"><strong>CC:</strong> <span class="text-light" th:text="${email.cc}">cc@domain.com</span></div>
-                            <div th:if="${email.bcc != null && !email.bcc.isEmpty()}"><strong>BCC:</strong> <span class="text-light" th:text="${email.bcc}">bcc@domain.com</span></div>
+                            <div><strong>To:</strong> <span class="text-dark" th:text="${email.recipients}">recipient@domain.com</span></div>
+                            <div th:if="${email.cc != null && !email.cc.isEmpty()}"><strong>CC:</strong> <span class="text-dark" th:text="${email.cc}">cc@domain.com</span></div>
+                            <div th:if="${email.bcc != null && !email.bcc.isEmpty()}"><strong>BCC:</strong> <span class="text-dark" th:text="${email.bcc}">bcc@domain.com</span></div>
                         </div>
                         <div class="col-sm-6">
-                            <div><strong>Created At:</strong> <span class="text-light" th:text="${#temporals.format(email.createdAt, 'yyyy-MM-dd HH:mm:ss')}">Timestamp</span></div>
-                            <div><strong>Scheduled For:</strong> <span class="text-light" th:text="${#temporals.format(email.scheduledTime, 'yyyy-MM-dd HH:mm:ss')}">Timestamp</span></div>
-                            <div><strong>Retry Count:</strong> <span class="text-light" th:text="${email.retryCount + ' / ' + email.maxRetries}">0 / 3</span></div>
+                            <div><strong>Created At:</strong> <span class="text-dark" th:text="${#temporals.format(email.createdAt, 'yyyy-MM-dd HH:mm:ss')}">Timestamp</span></div>
+                            <div><strong>Scheduled For:</strong> <span class="text-dark" th:text="${#temporals.format(email.scheduledTime, 'yyyy-MM-dd HH:mm:ss')}">Timestamp</span></div>
+                            <div><strong>Retry Count:</strong> <span class="text-dark" th:text="${email.retryCount + ' / ' + email.maxRetries}">0 / 3</span></div>
                         </div>
                     </div>
 
                     <!-- Body Content -->
-                    <h6 class="fw-bold text-light mb-2">Message Body:</h6>
-                    <div class="p-4 rounded-3 text-light bg-dark bg-opacity-30 border border-dark mb-4" style="min-height: 180px; overflow-wrap: break-word;">
+                    <h6 class="fw-bold text-dark mb-2">Message Body:</h6>
+                    <div class="p-4 rounded-3 text-dark bg-light border border-light-subtle mb-4" style="min-height: 180px; overflow-wrap: break-word;">
                         <div th:utext="${email.body}">Message contents here.</div>
                     </div>
 
                     <!-- Attachments List -->
                     <div th:if="${not #lists.isEmpty(email.attachments)}">
-                        <h6 class="fw-bold text-light mb-2"><i class="fa-solid fa-paperclip me-1 text-gradient"></i>Attachments:</h6>
+                        <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-paperclip me-1 text-gradient"></i>Attachments:</h6>
                         <ul class="list-group list-group-flush bg-transparent">
                             <li th:each="att : ${email.attachments}" class="list-group-item bg-transparent text-secondary border-0 d-flex align-items-center px-0">
-                                <i class="fa-solid fa-file-arrow-down me-2 text-info"></i>
-                                <span class="text-light" th:text="${att.fileName}">attachment.pdf</span>
+                                <i class="fa-solid fa-file-arrow-down me-2 text-primary"></i>
+                                <span class="text-dark" th:text="${att.fileName}">attachment.pdf</span>
                                 <span class="ms-2 text-secondary fs-8" th:text="'(' + ${att.filePath} + ')'">(Path)</span>
                             </li>
                         </ul>
@@ -99,9 +99,9 @@
             <!-- Lifecycle / Status Log Tracking list -->
             <div class="col-md-4">
                 <div class="glass-card p-4">
-                    <h5 class="fw-bold text-light mb-4"><i class="fa-solid fa-clock-rotate-left me-2 text-gradient"></i>Delivery Logs</h5>
+                    <h5 class="fw-bold text-dark mb-4"><i class="fa-solid fa-clock-rotate-left me-2 text-gradient"></i>Delivery Logs</h5>
                     
-                    <div class="position-relative border-start border-dark ms-2 ps-3 py-2">
+                    <div class="position-relative border-start border-light-subtle ms-2 ps-3 py-2">
                         <div th:each="log : ${logs}" class="mb-4 position-relative">
                             <!-- Bullet marker -->
                             <div class="position-absolute bg-gradient-accent rounded-circle" style="width: 10px; height: 10px; left: -21px; top: 6px;"></div>

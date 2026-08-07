@@ -14,11 +14,11 @@
 <body>
     <div class="d-flex flex-column min-vh-100">
         <!-- Navigation Header -->
-        <nav class="navbar navbar-expand-lg navbar-dark navbar-premium py-3 px-4 sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light navbar-premium py-3 px-4 sticky-top">
             <div class="container-fluid">
                 <a class="navbar-brand d-flex align-items-center" th:href="@{/dashboard}">
-                    <i class="fa-solid fa-paper-plane text-gradient fs-3 me-2"></i>
-                    <span class="fw-bold fs-4 text-gradient">PriorityMail</span>
+                    <i class="fa-solid fa-paper-plane brand-logo-icon me-2"></i>
+                    <span class="brand-logo-text">PriorityMail</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,10 +26,10 @@
                 <div class="collapse navbar-collapse" id="navbarContent">
                     <ul class="navbar-nav ms-auto align-items-center">
                         <li class="nav-item me-3" sec:authorize="isAuthenticated()">
-                            <span class="text-secondary">Logged in as: <strong class="text-light" sec:authentication="name">user@email.com</strong></span>
+                            <span style="color: #475569 !important; font-weight: 500;">Logged in as: <strong style="color: #0f172a !important; font-weight: 700;" sec:authentication="name">user@email.com</strong></span>
                         </li>
                         <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                            <a th:href="@{/admin}" class="btn btn-sm btn-outline-warning me-3" id="admin-panel-btn">
+                            <a th:href="@{/admin}" class="btn btn-sm btn-outline-primary me-3" id="admin-panel-btn">
                                 <i class="fa-solid fa-user-shield me-1"></i> Admin Panel
                             </a>
                         </li>
@@ -48,7 +48,7 @@
         <div class="container-fluid flex-grow-1">
             <div class="row min-vh-100">
                 <!-- Sidebar -->
-                <nav class="col-md-3 col-lg-2 d-md-block bg-secondary sidebar collapse py-4 border-end border-dark" style="background-color: var(--bg-secondary) !important;">
+                <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse py-4 border-end border-light-subtle" style="background-color: var(--bg-secondary) !important;">
                     <div class="position-sticky pt-3 px-3">
                         <a th:href="@{/dashboard}" th:classappend="${currentPage == 'dashboard' ? 'active' : ''}" class="sidebar-link" id="nav-dashboard">
                             <i class="fa-solid fa-house"></i> Dashboard

@@ -11,17 +11,17 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body class="d-flex align-items-center justify-content-center py-5" style="background: radial-gradient(circle at 50% 50%, #111827 0%, #030712 100%);">
+<body class="d-flex align-items-center justify-content-center py-5" style="background: linear-gradient(135deg, #e0f2fe 0%, #f8fafc 50%, #e0e7ff 100%); min-height: 100vh;">
     
     <div class="container animate-fade-in" style="max-width: 450px;">
         <div class="text-center mb-4">
-            <i class="fa-solid fa-paper-plane text-gradient fs-1 mb-2"></i>
-            <h2 class="fw-bold text-gradient">PriorityMail</h2>
-            <p class="text-secondary small">Smart Email Scheduling via Priority Queues</p>
+            <i class="fa-solid fa-paper-plane brand-logo-icon mb-2" style="font-size: 3rem !important;"></i>
+            <h2 class="brand-logo-text" style="font-size: 2.2rem !important;">PriorityMail</h2>
+            <p class="text-secondary small" style="color: #475569 !important; font-weight: 500;">Smart Email Scheduling via Priority Queues</p>
         </div>
 
         <div class="glass-card p-5">
-            <h4 class="fw-bold mb-4 text-center">Sign In</h4>
+            <h4 class="fw-bold mb-4 text-center text-dark">Sign In</h4>
             
             <!-- Success/Error Messages -->
             <div th:if="${param.error}" class="alert alert-danger border-0 bg-danger bg-opacity-20 text-danger rounded-3 py-2 small" role="alert">
@@ -42,7 +42,7 @@
                 <div class="mb-3">
                     <label for="email" class="form-label">Email Address</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-tertiary border-dark text-secondary"><i class="fa-solid fa-envelope"></i></span>
+                        <span class="input-group-text bg-light border text-secondary"><i class="fa-solid fa-envelope"></i></span>
                         <input type="email" class="form-control border-start-0" id="email" name="email" required placeholder="name@domain.com">
                     </div>
                 </div>
@@ -50,10 +50,10 @@
                 <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center">
                         <label for="password" class="form-label">Password</label>
-                        <a th:href="@{/reset-password}" class="text-decoration-none small text-secondary hover-accent">Forgot?</a>
+                        <a th:href="@{/reset-password}" class="text-decoration-none small text-primary hover-accent">Forgot?</a>
                     </div>
                     <div class="input-group">
-                        <span class="input-group-text bg-tertiary border-dark text-secondary"><i class="fa-solid fa-lock"></i></span>
+                        <span class="input-group-text bg-light border text-secondary"><i class="fa-solid fa-lock"></i></span>
                         <input type="password" class="form-control border-start-0" id="password" name="password" required placeholder="••••••••">
                     </div>
                 </div>
@@ -65,7 +65,7 @@
 
             <div class="text-center mt-3 small text-secondary">
                 Don't have an account? 
-                <a th:href="@{/register}" class="text-decoration-none fw-semibold text-light hover-accent">Register here</a>
+                <a th:href="@{/register}" class="text-decoration-none fw-semibold text-primary hover-accent">Register here</a>
             </div>
         </div>
     </div>

@@ -11,13 +11,13 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body class="d-flex align-items-center justify-content-center py-5" style="background: radial-gradient(circle at 50% 50%, #111827 0%, #030712 100%);">
+<body class="d-flex align-items-center justify-content-center py-5" style="background: linear-gradient(135deg, #e0f2fe 0%, #f8fafc 50%, #e0e7ff 100%); min-height: 100vh;">
     
     <div class="container animate-fade-in" style="max-width: 480px;">
         <div class="text-center mb-4">
-            <i class="fa-solid fa-user-plus text-gradient fs-1 mb-2"></i>
-            <h2 class="fw-bold text-gradient">Create Account</h2>
-            <p class="text-secondary small">Begin scheduling with multi-priority delivery pipelines</p>
+            <i class="fa-solid fa-user-plus brand-logo-icon mb-2" style="font-size: 2.5rem !important;"></i>
+            <h2 class="brand-logo-text">Create Account</h2>
+            <p class="text-secondary small" style="color: #475569 !important; font-weight: 500;">Begin scheduling with multi-priority delivery pipelines</p>
         </div>
 
         <div class="glass-card p-5">
@@ -30,7 +30,7 @@
                 <div class="mb-3">
                     <label for="name" class="form-label">Full Name</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-tertiary border-dark text-secondary"><i class="fa-solid fa-user"></i></span>
+                        <span class="input-group-text bg-light border text-secondary"><i class="fa-solid fa-user"></i></span>
                         <input type="text" class="form-control border-start-0" id="name" th:field="*{name}" required placeholder="John Doe">
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                 <div class="mb-3">
                     <label for="email" class="form-label">Email Address</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-tertiary border-dark text-secondary"><i class="fa-solid fa-envelope"></i></span>
+                        <span class="input-group-text bg-light border text-secondary"><i class="fa-solid fa-envelope"></i></span>
                         <input type="email" class="form-control border-start-0" id="email" th:field="*{email}" required placeholder="john@example.com">
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                 <div class="mb-4">
                     <label for="password" class="form-label">Password</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-tertiary border-dark text-secondary"><i class="fa-solid fa-lock"></i></span>
+                        <span class="input-group-text bg-light border text-secondary"><i class="fa-solid fa-lock"></i></span>
                         <input type="password" class="form-control border-start-0" id="password" th:field="*{password}" required placeholder="Min 6 characters">
                     </div>
                 </div>
@@ -58,7 +58,7 @@
 
             <div class="text-center mt-3 small text-secondary">
                 Already registered? 
-                <a th:href="@{/login}" class="text-decoration-none fw-semibold text-light hover-accent">Login here</a>
+                <a th:href="@{/login}" class="text-decoration-none fw-semibold text-primary hover-accent">Login here</a>
             </div>
         </div>
     </div>
