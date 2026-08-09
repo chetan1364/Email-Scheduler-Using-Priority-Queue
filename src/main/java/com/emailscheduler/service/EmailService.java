@@ -115,11 +115,15 @@ public class EmailService {
     }
 
     public List<Email> filterUserEmails(Long userId, EmailStatus status, EmailPriority priority, String search, LocalDateTime start, LocalDateTime end) {
-        return emailRepository.filterEmails(userId, status, priority, search, start, end);
+        String safeSearch = search == null ? "" : search;
+        LocalDateTime safeStart = start != null ? start : LocalDateTime.of(1970, 1, 1, 0, 0);
+        LocalDateTime safeEnd = end != null ? end : LocalDateTime.of(2099, 12, 31, 23, 59);
+        return emailRepository.filterEmails(userId, status, priority, safeSearch, safeStart, safeEnd);
     }
 
     public List<Email> filterAllEmails(EmailStatus status, EmailPriority priority, String search) {
-        return emailRepository.filterAllEmails(status, priority, search);
+        String safeSearch = search == null ? "" : search;
+        return emailRepository.filterAllEmails(status, priority, safeSearch);
     }
 
     private void logStatusChange(Email email, EmailStatus status, String message) {

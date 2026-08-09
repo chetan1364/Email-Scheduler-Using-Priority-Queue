@@ -22,9 +22,9 @@ public interface EmailRepository extends JpaRepository<Email, Long> {
     @Query("SELECT e FROM Email e WHERE e.sender.id = :senderId " +
            "AND (:status IS NULL OR e.status = :status) " +
            "AND (:priority IS NULL OR e.priority = :priority) " +
-           "AND (:search IS NULL OR LOWER(e.recipients) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(e.subject) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(e.body) LIKE LOWER(CONCAT('%', :search, '%'))) " +
-           "AND (:startDate IS NULL OR e.scheduledTime >= :startDate) " +
-           "AND (:endDate IS NULL OR e.scheduledTime <= :endDate) " +
+           "AND (LOWER(e.recipients) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(e.subject) LIKE LOWER(CONCAT('%', :search, '%'))) " +
+           "AND e.scheduledTime >= :startDate " +
+           "AND e.scheduledTime <= :endDate " +
            "ORDER BY e.createdAt DESC")
     List<Email> filterEmails(
             @Param("senderId") Long senderId,
@@ -38,7 +38,7 @@ public interface EmailRepository extends JpaRepository<Email, Long> {
     @Query("SELECT e FROM Email e WHERE " +
            "(:status IS NULL OR e.status = :status) " +
            "AND (:priority IS NULL OR e.priority = :priority) " +
-           "AND (:search IS NULL OR LOWER(e.recipients) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(e.subject) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(e.sender.email) LIKE LOWER(CONCAT('%', :search, '%'))) " +
+           "AND (LOWER(e.recipients) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(e.subject) LIKE LOWER(CONCAT('%', :search, '%')) OR LOWER(e.sender.email) LIKE LOWER(CONCAT('%', :search, '%'))) " +
            "ORDER BY e.createdAt DESC")
     List<Email> filterAllEmails(
             @Param("status") EmailStatus status,
