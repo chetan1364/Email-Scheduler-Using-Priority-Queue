@@ -1,13 +1,9 @@
 services:
   - type: web
     name: email-scheduler
-    runtime: java
+    env: docker
     region: oregon  # or frankfurt if you prefer EU
     plan: free
-
-    # Render builds the fat JAR then starts it
-    buildCommand: mvn clean package -DskipTests
-    startCommand: java -Dserver.port=$PORT -jar target/email-scheduler-0.0.1-SNAPSHOT.jar
 
     healthCheckPath: /login
 
