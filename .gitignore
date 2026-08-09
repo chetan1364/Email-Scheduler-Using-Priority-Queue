@@ -9,8 +9,12 @@ target/
 .spring-boot-devtools.properties
 
 # Sensitive configuration — NEVER commit real credentials
-# Copy application.properties to application-local.properties for local use
+# The real application.properties (with secrets) is excluded
+# Use application.properties.template as a reference for deployment config
 src/main/resources/application.properties
+
+# Render deployment config is intentionally committed
+!render.yaml
 
 # IDE files
 .idea/
