@@ -1,34 +1,26 @@
 # Server configuration
-server.port=8080
+server.port=${PORT:8080}
 
-# Spring datasource configuration (MySQL)
-# Create a database named 'email_scheduler' and fill in your credentials below
-spring.datasource.url=jdbc:mysql://localhost:3306/email_scheduler?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
-spring.datasource.username=root
-spring.datasource.password=YOUR_MYSQL_PASSWORD
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-
-# Fallback: H2 in-memory DB (uncomment to use without MySQL)
-# spring.datasource.url=jdbc:h2:mem:email_scheduler;DB_CLOSE_DELAY=-1
-# spring.datasource.username=sa
-# spring.datasource.password=
-# spring.datasource.driver-class-name=org.h2.Driver
-# spring.h2.console.enabled=true
+# ─── Neon PostgreSQL (cloud) ───────────────────────────────────────────────
+# Create a project at https://neon.tech → copy the connection string shown there
+# It looks like: postgresql://user:password@ep-xxx.region.aws.neon.tech/neondb?sslmode=require
+spring.datasource.url=${NEON_DATABASE_URL}
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.hikari.connection-timeout=30000
+spring.datasource.hikari.maximum-pool-size=5
 
 # JPA/Hibernate settings
 spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-# Dialect auto-detected by Hibernate 6 — no need to set it explicitly
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 
-# Mail sender configuration
-# For Gmail: enable 2-Step Verification, then generate an App Password at:
-# https://myaccount.google.com/apppasswords
-spring.mail.host=smtp.gmail.com
-spring.mail.port=587
-spring.mail.username=YOUR_GMAIL_ADDRESS@gmail.com
-spring.mail.password=YOUR_16_CHAR_APP_PASSWORD
-spring.mail.properties.mail.smtp.auth=true
-spring.mail.properties.mail.smtp.starttls.enable=true
+# ─── Brevo Transactional Email API ────────────────────────────────────────
+# Sign up free at https://app.brevo.com → SMTP & API → API Keys → Create API Key
+# Free tier: 300 emails/day, no domain verification required
+brevo.api.key=${BREVO_API_KEY}
+# The "From" email address — must be verified in your Brevo account (Senders page)
+brevo.sender.email=${BREVO_SENDER_EMAIL}
+brevo.sender.name=PriorityMail Scheduler
 
 # Spring security thymeleaf dialect
 spring.thymeleaf.expose-request-variables=true
