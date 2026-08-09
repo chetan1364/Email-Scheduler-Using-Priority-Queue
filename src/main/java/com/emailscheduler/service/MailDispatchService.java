@@ -27,7 +27,7 @@ public class MailDispatchService {
     @Value("${brevo.sender.email}")
     private String senderEmail;
 
-    @Value("${brevo.sender.name}")
+    @Value("${brevo.sender.name:PriorityMail Scheduler}")
     private String senderName;
 
     public MailDispatchService(RestTemplate restTemplate) {
