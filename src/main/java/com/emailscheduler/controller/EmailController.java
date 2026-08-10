@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,12 +64,21 @@ public class EmailController {
             email.setBody(requestDTO.getBody());
             email.setPriority(requestDTO.getPriority());
 
-            // Parse scheduled time
+            // Parse scheduled time and convert from user's local time to UTC for storage.
+            // timezoneOffset is in minutes-behind-UTC (e.g., IST = -330).
+            // localTime.plusMinutes(-330) subtracts 5h30m, converting IST to UTC correctly.
             if (requestDTO.getScheduledTime() != null && !requestDTO.getScheduledTime().isEmpty()) {
-                email.setScheduledTime(LocalDateTime.parse(requestDTO.getScheduledTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+                LocalDateTime localTime = LocalDateTime.parse(requestDTO.getScheduledTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                int offset = (requestDTO.getTimezoneOffset() != null) ? requestDTO.getTimezoneOffset() : 0;
+                if (offset != 0) {
+                    localTime = localTime.plusMinutes(offset);
+                }
+                email.setTimezoneOffset(offset);
+                email.setScheduledTime(localTime);
             } else {
-                // If scheduled time is not provided, default to sending immediately (now)
-                email.setScheduledTime(LocalDateTime.now());
+                // No scheduled time provided — send immediately in UTC
+                email.setScheduledTime(LocalDateTime.now(ZoneOffset.UTC));
+                email.setTimezoneOffset(0);
             }
 
             // Determine status based on button clicked
@@ -124,8 +134,9 @@ public class EmailController {
         requestDTO.setBody(email.getBody());
         requestDTO.setPriority(email.getPriority());
         if (email.getScheduledTime() != null) {
-            requestDTO.setScheduledTime(email.getScheduledTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            requestDTO.setScheduledTime(email.getLocalScheduledTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         }
+        requestDTO.setTimezoneOffset(email.getTimezoneOffset());
 
         model.addAttribute("emailId", id);
         model.addAttribute("emailRequest", requestDTO);
@@ -154,10 +165,19 @@ public class EmailController {
             updated.setBody(requestDTO.getBody());
             updated.setPriority(requestDTO.getPriority());
 
+            // Parse scheduled time and convert from user's local time to UTC for storage.
             if (requestDTO.getScheduledTime() != null && !requestDTO.getScheduledTime().isEmpty()) {
-                updated.setScheduledTime(LocalDateTime.parse(requestDTO.getScheduledTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+                LocalDateTime localTime = LocalDateTime.parse(requestDTO.getScheduledTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                // Use offset from the submitted form; fall back to the existing email's offset if not provided.
+                int offset = (requestDTO.getTimezoneOffset() != null) ? requestDTO.getTimezoneOffset() : (existing.getTimezoneOffset() != null ? existing.getTimezoneOffset() : 0);
+                if (offset != 0) {
+                    localTime = localTime.plusMinutes(offset);
+                }
+                updated.setTimezoneOffset(offset);
+                updated.setScheduledTime(localTime);
             } else {
-                updated.setScheduledTime(LocalDateTime.now());
+                updated.setScheduledTime(LocalDateTime.now(ZoneOffset.UTC));
+                updated.setTimezoneOffset(existing.getTimezoneOffset() != null ? existing.getTimezoneOffset() : 0);
             }
 
             if ("draft".equalsIgnoreCase(action)) {

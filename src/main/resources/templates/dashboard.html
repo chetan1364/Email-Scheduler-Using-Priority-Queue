@@ -151,7 +151,7 @@
                                               th:classappend="${email.priority.name() == 'HIGH' ? 'badge-high' : (email.priority.name() == 'MEDIUM' ? 'badge-medium' : 'badge-low')}"
                                               th:text="${email.priority}">HIGH</span>
                                     </td>
-                                    <td th:text="${#temporals.format(email.scheduledTime, 'yyyy-MM-dd HH:mm:ss')}">2026-07-07 18:00</td>
+                                    <td th:text="${#temporals.format(email.localScheduledTime, 'yyyy-MM-dd HH:mm:ss')}">2026-07-07 18:00</td>
                                     <td>
                                         <span class="badge" 
                                               th:classappend="${'badge-' + #strings.toLowerCase(email.status)}"

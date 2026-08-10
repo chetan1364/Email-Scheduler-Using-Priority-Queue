@@ -41,7 +41,7 @@ public class EmailDispatchJob {
 
         // 1. Fetch all dispatchable emails from DB
         //    QUEUED is included to recover emails that were in-memory queue when app restarted
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(java.time.ZoneOffset.UTC);
         List<Email> readyEmails = emailRepository.findByStatusInAndScheduledTimeLessThanEqual(
                 List.of(EmailStatus.PENDING, EmailStatus.RETRIED, EmailStatus.QUEUED), now
         );

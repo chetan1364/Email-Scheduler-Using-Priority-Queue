@@ -16,6 +16,7 @@
             <!-- Compose/Edit Form (enc-type multipart/form-data for attachments) -->
             <form th:action="${emailId != null ? '/emails/' + emailId + '/edit' : '/emails/compose'}" 
                   th:object="${emailRequest}" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="timezoneOffset" th:field="*{timezoneOffset}">
                 
                 <div class="row g-3 mb-3">
                     <!-- Recipients -->
@@ -98,6 +99,14 @@
             </form>
         </div>
 
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Always set the timezone offset from the browser at page load.
+                // Date.getTimezoneOffset() returns minutes BEHIND UTC (e.g., IST = -330).
+                // The backend does localTime.plusMinutes(offset), so -330 converts 23:00 IST → 17:30 UTC correctly.
+                document.getElementById('timezoneOffset').value = new Date().getTimezoneOffset();
+            });
+        </script>
     </div>
 </body>
 </html>

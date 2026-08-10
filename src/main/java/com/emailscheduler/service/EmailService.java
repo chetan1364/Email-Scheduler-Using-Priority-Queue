@@ -70,6 +70,7 @@ public class EmailService {
         existing.setBody(updatedEmail.getBody());
         existing.setPriority(updatedEmail.getPriority());
         existing.setScheduledTime(updatedEmail.getScheduledTime());
+        existing.setTimezoneOffset(updatedEmail.getTimezoneOffset());
         existing.setStatus(updatedEmail.getStatus()); // Could change from Draft to Pending
         
         // Clear previous attachments and add new ones if managed via cascade

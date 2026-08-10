@@ -92,4 +92,14 @@ public class EmailRequestDTO {
     public void setAttachments(List<MultipartFile> attachments) {
         this.attachments = attachments;
     }
+
+    private Integer timezoneOffset;
+
+    public Integer getTimezoneOffset() {
+        return timezoneOffset;
+    }
+
+    public void setTimezoneOffset(Integer timezoneOffset) {
+        this.timezoneOffset = timezoneOffset;
+    }
 }

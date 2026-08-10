@@ -71,7 +71,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div><strong>Created At:</strong> <span class="text-dark" th:text="${#temporals.format(email.createdAt, 'yyyy-MM-dd HH:mm:ss')}">Timestamp</span></div>
-                            <div><strong>Scheduled For:</strong> <span class="text-dark" th:text="${#temporals.format(email.scheduledTime, 'yyyy-MM-dd HH:mm:ss')}">Timestamp</span></div>
+                            <div><strong>Scheduled For:</strong> <span class="text-dark" th:text="${#temporals.format(email.localScheduledTime, 'yyyy-MM-dd HH:mm:ss')}">Timestamp</span></div>
                             <div><strong>Retry Count:</strong> <span class="text-dark" th:text="${email.retryCount + ' / ' + email.maxRetries}">0 / 3</span></div>
                         </div>
                     </div>

@@ -174,4 +174,23 @@ public class Email {
         attachments.add(attachment);
         attachment.setEmail(this);
     }
+
+    @Column(nullable = false)
+    private Integer timezoneOffset = 0;
+
+    public Integer getTimezoneOffset() {
+        return timezoneOffset;
+    }
+
+    public void setTimezoneOffset(Integer timezoneOffset) {
+        this.timezoneOffset = timezoneOffset;
+    }
+
+    @Transient
+    public LocalDateTime getLocalScheduledTime() {
+        if (scheduledTime != null && timezoneOffset != null) {
+            return scheduledTime.minusMinutes(timezoneOffset);
+        }
+        return scheduledTime;
+    }
 }
